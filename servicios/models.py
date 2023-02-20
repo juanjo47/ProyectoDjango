@@ -1,4 +1,5 @@
 from django.db import models
+from .validators import validar_costo
 
 class Categoria(models.Model):
     nombre = models.CharField(max_length = 100, unique=True)
@@ -10,13 +11,13 @@ class Tutoriales(models.Model):
     link = models.CharField(max_length=150, unique=True)
 
 class TipoPago(models.TextChoices):
-    Efectivo = 'Ef', 'bolivianos',
-    Web = 'Ol', 'Dolares',
+    Efectivo = 'Ef', 'efectivo',
+    Web = 'Ol', 'en_linea',
 
 class DispElec(models.Model):
     nombre = models.CharField(max_length=100, unique=True)
     descripcion = models.TextField()
-    precio = models.DecimalField(decimal_places=2, max_digits=10)
+    precio = models.DecimalField(decimal_places=2, max_digits=10, validators=[validar_costo,])
     unidades = models.CharField(
         max_length = 2,
         choices= TipoPago.choices, 
@@ -28,7 +29,7 @@ class Servicio(models.Model):
     nombre = models.CharField(max_length=255)
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     descripcion = models.TextField()
-    precio = models.DecimalField(decimal_places=2, max_digits=10)
+    precio = models.DecimalField(decimal_places=2, max_digits=10, validators=[validar_costo,])
     unidades = models.CharField(
         max_length = 2,
         choices= TipoPago.choices, 

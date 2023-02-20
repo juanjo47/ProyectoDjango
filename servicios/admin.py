@@ -26,4 +26,8 @@ admin.site.register(DispElec, DispElecAdmin)
 """
 Tutoriales
 """
+class TutorialesAdmin(admin.ModelAdmin):
+    list_display = ("nombre", "link",)
+    ordering = ["nombre"]
+    search_fields = ["nombre"]
 admin.site.register(Tutoriales)
